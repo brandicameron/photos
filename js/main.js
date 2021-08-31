@@ -95,7 +95,10 @@ function closeModal(e) {
 // ACCESSIBILITY
 //Target for skip to content link
 const allImgs = document.querySelectorAll('img');
-allImgs[0].setAttribute('id', 'first-product');
+//prevents error on 404 page which has no image
+if (!allImgs.length == 0) {
+  allImgs[0].setAttribute('id', 'first-product');
+}
 
 //For tabbing to products and opening the modal
 products.forEach((container) => {

@@ -1,2 +1,0 @@
-# photos
-Testing eleventy unbranded
