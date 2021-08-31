@@ -3,7 +3,7 @@ const products = document.querySelectorAll('.products-container');
 let activeElement; //Capture active element for keyboard users to return to after large view
 
 //PRODUCT MODALS
-function createImageModal() {
+function createProductModal(e) {
   const modal = document.createElement('div');
   modal.classList.add('modal');
   body.appendChild(modal);
@@ -21,53 +21,57 @@ function createImageModal() {
   image.classList.add('image');
   imgContainer.appendChild(image);
   closeBtn.focus();
+
+  image.src = e.target.src;
+  image.alt = e.target.alt;
 }
 
-function viewImageModal(e) {
+function createChristmasModal(e) {
+  const template = document.querySelector('.template');
+  const modal = template.content.cloneNode(true);
+  document.body.appendChild(modal);
+
+  const image = document.querySelector('.image');
+  const thumbnails = document.querySelector('.thumbnails');
+  const thumbFront = document.querySelector('.thumb-front');
+  const thumbBack = document.querySelector('.thumb-back');
+
+  image.src = e.target.src.replace('-3', '-2');
+  image.alt = e.target.alt;
+  thumbFront.src = e.target.src.replace('-3', '-2');
+  thumbFront.alt = e.target.alt;
+  thumbBack.src = e.target.src.replace('-2', '-3');
+  thumbBack.alt = e.target.alt;
+
+  if (e.keyCode === 13) {
+    thumbnailFocus();
+  }
+
+  thumbnails.addEventListener('click', (e) => {
+    if (e.target.classList.contains('thumbnail')) {
+      image.src = e.target.src;
+    }
+  });
+
+  thumbnails.addEventListener('keydown', (e) => {
+    if (e.keyCode === 13) {
+      if (e.target.classList.contains('thumbnail')) {
+        image.src = e.target.src;
+      }
+    }
+  });
+}
+
+function viewProductModal(e) {
   if (
     e.target.classList.contains('product-image') &&
     !e.target.classList.contains('album-image')
   ) {
     body.style.overflow = 'hidden';
-    createImageModal();
-    const image = document.querySelector('.image');
-    image.src = e.target.src;
-    image.alt = e.target.alt;
-  }
-}
-
-function viewChristmasModal(e) {
-  if (e.target.classList.contains('christmas-image')) {
+    createProductModal(e);
+  } else if (e.target.classList.contains('christmas-image')) {
     body.style.overflow = 'hidden';
-    const template = document.querySelector('.template');
-    const modal = template.content.cloneNode(true);
-    document.body.appendChild(modal);
-
-    const image = document.querySelector('.image');
-    const thumbnails = document.querySelector('.thumbnails');
-    const thumbFront = document.querySelector('.thumb-front');
-    const thumbBack = document.querySelector('.thumb-back');
-
-    image.src = e.target.src.replace('-3', '-2');
-    image.alt = e.target.alt;
-    thumbFront.src = e.target.src.replace('-3', '-2');
-    thumbFront.alt = e.target.alt;
-    thumbBack.src = e.target.src.replace('-2', '-3');
-    thumbBack.alt = e.target.alt;
-
-    thumbnails.addEventListener('click', (e) => {
-      if (e.target.classList.contains('thumbnail')) {
-        image.src = e.target.src;
-      }
-    });
-
-    thumbnails.addEventListener('keydown', (e) => {
-      if (e.keyCode === 13) {
-        if (e.target.classList.contains('thumbnail')) {
-          image.src = e.target.src;
-        }
-      }
-    });
+    createChristmasModal(e);
   }
 }
 
@@ -99,11 +103,11 @@ products.forEach((container) => {
     if (e.keyCode === 13) {
       activeElement = document.activeElement;
 
-      if (e.target.classList.contains('product-image')) {
-        viewImageModal(e);
-      } else if (e.target.classList.contains('christmas-image')) {
-        viewChristmasModal(e);
-        thumbnailFocus();
+      if (
+        e.target.classList.contains('product-image') ||
+        e.target.classList.contains('christmas-image')
+      ) {
+        viewProductModal(e);
       }
     }
   });
@@ -138,7 +142,6 @@ window.onscroll = function () {
 };
 
 // EVENT LISTENERS
-body.addEventListener('click', viewImageModal);
-body.addEventListener('click', viewChristmasModal);
+body.addEventListener('click', viewProductModal);
 body.addEventListener('click', closeModal);
 body.addEventListener('keydown', closeModal);
