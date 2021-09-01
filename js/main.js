@@ -8,14 +8,14 @@ function createProductModal(e) {
   modal.classList.add('modal');
   body.appendChild(modal);
 
-  const closeBtn = document.createElement('div');
-  closeBtn.classList.add('close-btn');
-  closeBtn.setAttribute('tabindex', '0');
-  modal.appendChild(closeBtn);
-
   const imgContainer = document.createElement('div');
   imgContainer.classList.add('img-container');
   modal.appendChild(imgContainer);
+
+  const closeBtn = document.createElement('div');
+  closeBtn.classList.add('close-btn');
+  closeBtn.setAttribute('tabindex', '0');
+  imgContainer.appendChild(closeBtn);
 
   const image = document.createElement('img');
   image.classList.add('image');
