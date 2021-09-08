@@ -144,6 +144,22 @@ window.onscroll = function () {
   }
 };
 
+// PAGINATION
+//remove leading / from pagination href paths in pagination nav menu
+const paginationLinks = document.querySelectorAll('.pagination-link');
+
+function removeLeadingSlash() {
+  if (!paginationLinks.length == 0) {
+    paginationLinks.forEach((link) => {
+      let originalPath = link.attributes[0].value;
+      let newPath = originalPath.substring(1);
+      link.attributes[0].value = newPath;
+    });
+  }
+}
+
+removeLeadingSlash();
+
 // EVENT LISTENERS
 body.addEventListener('click', viewProductModal);
 body.addEventListener('click', closeModal);
