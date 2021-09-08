@@ -151,9 +151,9 @@ const paginationLinks = document.querySelectorAll('.pagination-link');
 function removeLeadingSlash() {
   if (!paginationLinks.length == 0) {
     paginationLinks.forEach((link) => {
-      let originalPath = link.attributes[0].value;
+      let originalPath = link.attributes[1].value;
       let newPath = originalPath.substring(1);
-      link.attributes[0].value = newPath;
+      link.attributes[1].value = newPath;
     });
   }
 }
